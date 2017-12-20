@@ -7,6 +7,7 @@ var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
 var users = require('./routes/users');
+var bab = require('./routes/bab');
 
 var app = express();
 
@@ -21,9 +22,12 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
+app.use('/fb', express.static(__dirname + '/node_modules/fb/lib/'));
 
 app.use('/', index);
 app.use('/users', users);
+app.use('/bab', bab);
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
@@ -43,6 +47,6 @@ app.use(function(err, req, res, next) {
   res.render('error');
 });
 
-module.exports = app.listen(3000, function() {
+module.exports = app.listen(8160, function() {
   console.log('Bab is hot!')
 });
