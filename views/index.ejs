@@ -4,6 +4,7 @@
     <title><%= title %></title>
     <link rel='stylesheet' href='/stylesheets/style.css'/>
     <script src="/jquery/jquery.js"></script>
+    <script src="/node-schedule/lib/schedule.bundle.js"></script>
     <script type="text/javascript" src="//connect.facebook.net/en_US/sdk.js"></script>
 </head>
 <body>
@@ -27,6 +28,7 @@
     js.src = "https://connect.facebook.net/en_US/sdk.js";
     fjs.parentNode.insertBefore(js, fjs);
   }(document, 'script', 'facebook-jssdk'));
+
   $(document).on(
     'fbload',  //  <---- HERE'S OUR CUSTOM EVENT BEING LISTENED FOR
     function () {
@@ -39,7 +41,6 @@
           });
         }
       });
-
     }
   );
 
@@ -49,13 +50,11 @@
     });
   }
 
-  FB.getLoginStatus(function (response) {
-    statusChangeCallback(response);
-  });
-
+  var accessToken
   function statusChangeCallback(response) {
     console.log('statusChangeCallback');
     console.log(response);
+    accessToken = response.authResponse.accessToken
     // The response object is returned with a status field that lets the
     // app know the current login status of the person.
     // Full docs on the response object can be found in the documentation
@@ -92,16 +91,21 @@
     FB.AppEvents.logPageView();
   };
 
+  $.get('/bab/auto', {}, function (res) {
+
+  })
+
   function post() {
-    $.get('/bab', {}, function (res) {
+    $.get('/bab', {accessToken : accessToken}, function (res) {
       console.log(res)
-      FB.api('me/feed', 'post', {message: res.message}, function (res) {
-        if (!res || res.error) {
-          console.log(!res ? 'error occurred' : res.error);
-          return;
-        }
-        console.log('Post Id: ' + res.id);
-      });
+//      FB.api('me/feed', 'post', {message: res.message}, function (res) {
+//        if (!res || res.error) {
+//          console.log(!res ? 'error occurred' : res.error);
+//          return;
+//        }
+//        console.log("facebook board : ", res)
+//        console.log('Post Id: ' + res.id);
+//      });
     })
   }
 

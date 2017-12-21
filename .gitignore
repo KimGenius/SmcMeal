@@ -137,3 +137,6 @@ crashlytics.properties
 crashlytics-build.properties
 fabric.properties
 
+# Page Info
+ignore/token.json
+ignore/

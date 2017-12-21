@@ -23,6 +23,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 app.use('/jquery', express.static(__dirname + '/node_modules/jquery/dist/'));
+app.use('/node-schedule', express.static(__dirname + '/node_modules/node-schedule'));
 app.use('/fb', express.static(__dirname + '/node_modules/fb/lib/'));
 
 app.use('/', index);
