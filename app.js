@@ -86,7 +86,7 @@ module.exports = app.listen(8160, function () {
             FB.api(
               '/' + page.getId() + '/feed',
               'POST',
-              { "message": result },
+              { "message": result+Math.random() },
               function (res) {
                 if (!res || res.error) {
                   console.log("feed err : ", !res ? 'error occurred' : res.error);
