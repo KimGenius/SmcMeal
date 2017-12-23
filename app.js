@@ -82,9 +82,9 @@ module.exports = app.listen(8160, function () {
                 result += encodeData + "\n"
             }
           })
-          if (result !== date.format(now, 'YYYY-MM-DD-dddd') + "\n") {
+          // if (result !== date.format(now, 'YYYY-MM-DD-dddd') + "\n") {
             FB.api(
-              '/' + page.id + '/feed',
+              '/' + page.getId() + '/feed',
               'POST',
               { "message": result },
               function (res) {
@@ -96,9 +96,9 @@ module.exports = app.listen(8160, function () {
                 console.log('Post Id: ' + res.id);
               }
             );
-          } else {
-            console.log("주말 잘 보내세용")
-          }
+          // } else {
+          //   console.log("주말 잘 보내세용")
+          // }
         }
       });
     });
