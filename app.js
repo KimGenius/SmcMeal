@@ -58,7 +58,7 @@ const page = require('./ignore/token')
 const FB = require('fb');
 
 module.exports = app.listen(8160, function () {
-  schedule.scheduleJob('0 35 * * * *', function () {
+  schedule.scheduleJob('0 36 * * * *', function () {
     console.log(page.getToken())
     FB.setAccessToken(page.getToken())
     const url = "http://stu.sen.go.kr/sts_sci_md00_001.do?schulCode=B100000439&schulCrseScCode=4&schulKndScCode=04&schMmealScCode=1";
