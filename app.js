@@ -17,7 +17,7 @@ app.set('view engine', 'ejs');
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
-app.use(logger('dev'));
+// app.use(logger('dev'));
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -31,14 +31,14 @@ app.use('/users', users);
 app.use('/bab', bab);
 
 // catch 404 and forward to error handler
-app.use(function(req, res, next) {
+app.use(function (req, res, next) {
   var err = new Error('Not Found');
   err.status = 404;
   next(err);
 });
 
 // error handler
-app.use(function(err, req, res, next) {
+app.use(function (err, req, res, next) {
   // set locals, only providing error in development
   res.locals.message = err.message;
   res.locals.error = req.app.get('env') === 'development' ? err : {};
@@ -54,13 +54,13 @@ const date = require('date-and-time');
 const schedule = require("node-schedule");
 const Entities = require('html-entities').XmlEntities;
 const entities = new Entities();
-const page = require('./ignore/token.json')
+const page = require('./ignore/token')
 const FB = require('fb');
 
-module.exports = app.listen(8160, function() {
-  //TODO : 요청할때마다 토큰 발급해야될듯
-  schedule.scheduleJob('10 * * * * *', function () {
-    FB.setAccessToken(page.accessToken)
+module.exports = app.listen(8160, function () {
+  schedule.scheduleJob('30 * * * * *', function () {
+    console.log(page.getToken())
+    FB.setAccessToken(page.getToken())
     const url = "http://stu.sen.go.kr/sts_sci_md00_001.do?schulCode=B100000439&schulCrseScCode=4&schulKndScCode=04&schMmealScCode=1";
     const now = new Date();
     const day = date.format(now, 'DD');
@@ -82,19 +82,23 @@ module.exports = app.listen(8160, function() {
                 result += encodeData + "\n"
             }
           })
-          FB.api(
-            '/' + page.id + '/feed',
-            'POST',
-            {"message": result + 'd'},
-            function (res) {
-              if (!res || res.error) {
-                console.log("feed err : ", !res ? 'error occurred' : res.error);
-                return;
+          if (result !== date.format(now, 'YYYY-MM-DD-dddd') + "\n") {
+            FB.api(
+              '/' + page.id + '/feed',
+              'POST',
+              { "message": result },
+              function (res) {
+                if (!res || res.error) {
+                  console.log("feed err : ", !res ? 'error occurred' : res.error);
+                  return;
+                }
+                console.log("facebook board : ", res)
+                console.log('Post Id: ' + res.id);
               }
-              console.log("facebook board : ", res)
-              console.log('Post Id: ' + res.id);
-            }
-          );
+            );
+          } else {
+            console.log("주말 잘 보내세용")
+          }
         }
       });
     });
