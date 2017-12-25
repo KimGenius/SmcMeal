@@ -58,15 +58,14 @@ const Entities = require('html-entities').XmlEntities;
 const entities = new Entities();
 const page = require('./ignore/token')
 const FB = require('fb');
-
+const info = require('./ignore/info')
 module.exports = app.listen(8160, function () {
-  schedule.scheduleJob('0 44 * * * *', function () {
+  schedule.scheduleJob('20 * * * * *', function () {
     console.log(page.getToken())
     FB.setAccessToken(page.getToken())
-    const url = "http://stu.sen.go.kr/sts_sci_md00_001.do?schulCode=B100000439&schulCrseScCode=4&schulKndScCode=04&schMmealScCode=1";
     const now = new Date();
     const day = date.format(now, 'DD');
-    request(url, function (error, response, body) {
+    request(info.getUrl(), function (error, response, body) {
       if (error) throw error;
       var $ = cheerio.load(body);
       var elements = $("tbody td div");
@@ -84,11 +83,11 @@ module.exports = app.listen(8160, function () {
                 result += encodeData + "\n"
             }
           })
-          // if (result !== date.format(now, 'YYYY-MM-DD-dddd') + "\n") {
+          if (result !== date.format(now, 'YYYY-MM-DD-dddd') + "\n") {
             FB.api(
               '/' + page.getPageId() + '/feed',
               'POST',
-              { "message": result+Math.random() },
+              { "message": result + "\n\nCreated by GeniusK & Leesane"},
               function (res) {
                 if (!res || res.error) {
                   console.log("feed err : ", !res ? 'error occurred' : res.error);
@@ -98,9 +97,9 @@ module.exports = app.listen(8160, function () {
                 console.log('Post Id: ' + res.id);
               }
             );
-          // } else {
-          //   console.log("주말 잘 보내세용")
-          // }
+          } else {
+            console.log("주말 잘 보내세용")
+          }
         }
       });
     });

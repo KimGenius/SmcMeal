@@ -25,41 +25,40 @@
   <button onclick="logout()">로그아웃</button>
   <button onclick="post()">글쓰기</button>
   <script>
-  (function($) {
-    function getAccounts() {
-      return new Promise(function(resolve, reject) {
-        try{
-          FB.api('/me/accounts', function(response) {
-            console.log(response)
-            console.log('Good to see you, ' + response.name + '.')        
-            resolve(response)
-          })
-        } catch(e){
-          reject(e)
-        }
-      });
-    }
-    function fbLogin() {
-      FB.login(async function(response) {
-        if (response.authResponse) {
-        console.log('Welcome!  Fetching your information.... ');
-        const accounts = await getAccounts();
-        console.log(accounts)
-        accounts.data.forEach(element => {
-            console.log("ele id : "+element.id)
-            console.log("page id "+'<%= page.getPageId() %>')
-            if (element.id === '<%= page.getPageId() %>') {
-              console.log(element.access_token)
-            }
-          });
-        } else {
-          console.log('User cancelled login or did not fully authorize.');
-        }
-      }, {scope: 'public_profile,publish_actions,manage_pages,publish_pages'});
-    }
-    $('.test').click(function() {
-      fbLogin()
-    })
+    (function($) {
+      // function getAccounts() {
+      //   return new Promise(function(resolve, reject) {
+      //     try{
+      //       FB.api('/me/accounts', function(response) {
+      //         console.log(response)
+      //         console.log('Good to see you, ' + response.name + '.')        
+      //         resolve(response)
+      //       })
+      //     } catch(e){
+      //       reject(e)
+      //     }
+      //   });
+      // }
+      function fbLogin() {
+        FB.login(function(response) {
+          if (response.authResponse) {
+            console.log('Welcome!  Fetching your information.... ');
+            FB.api('/me/accounts', function(response) {
+              response.data.forEach(element => {
+                  if (element.id === '<%= page.getPageId() %>') {
+                    console.log(element.access_token)
+                    $.post('/bab/token',{token:element.access_token})
+                  }
+              });
+            })
+          } else {
+            console.log('User cancelled login or did not fully authorize.');
+          }
+        }, {scope: 'public_profile,publish_actions,manage_pages,publish_pages'});
+      }
+      $('.test').click(function() {
+        fbLogin()
+      })
     })(jQuery);
 
     (function (d, s, id) {
@@ -86,57 +85,6 @@
       }
     );
 
-    function checkLoginState() {
-      FB.getLoginStatus(function (response) {
-        statusChangeCallback(response);
-      });
-    }
-
-    var accessToken
-    function statusChangeCallback(response) {
-      console.log('statusChangeCallback');
-      console.log(response);
-      accessToken = response.authResponse.accessToken
-      if (response.status === 'connected') {
-        // Logged into your app and Facebook.
-        testAPI();
-      } else {
-        // The person is not logged into your app or we are unable to tell.
-        document.getElementById('status').innerHTML = 'Please log ' +
-          'into this app.';
-      }
-    }
-
-    function testAPI() {
-      console.log('Welcome!  Fetching your information.... ');
-      FB.api('/me', function (response) {
-        console.log('Successful login for: ' + response.name);
-        document.getElementById('status').innerHTML =
-          'Thanks for logging in, ' + response.name + '!';
-
-        FB.api('/me/accounts', function (accountData) {
-          console.log(accountData)
-          accountData.data.forEach(element => {
-            console.log("ele id : "+element.id)
-            console.log("page id "+'<%= page.getPageId() %>')
-            if (element.id === '<%= page.getPageId() %>') {
-              FB.api(
-                '/oauth/access_token',
-                'GET',
-                {"grant_type":"fb_exchange_token","client_id":"194933707726888","client_secret":"451833f2524661aad9c411a8db57e0c6","fb_exchange_token":"EAACxSopnYCgBAIh3d3BykSzeRtsP6u2ExLI0MfKe5CVPhjpUyReH3ZC2X2xKTcIXDtFzcoVH74ZBv0xQHDgKdLBMpga78yvKVngBwAemTCGH2zLjCZAIYUPTO7PGk4tCmXTJgzfdf4XIbWWZCHcYNqZCzzrXNkZC2OuurDjyKMwmVXnRJppm8Q82ZA5MIK3bTIz7TzuhQsaiQZDZD"},
-                function(response) {
-                  console.log(response)
-                  // console.log("res : "+response)
-                    // Insert your code here
-                }
-              )
-              $.post('/bab/token',{token:element.access_token})
-            }
-          });
-        });
-      });
-    }
-
     window.fbAsyncInit = function () {
       FB.init({
         appId: '194933707726888',
@@ -148,13 +96,6 @@
       $(document).trigger('fbload');
       FB.AppEvents.logPageView();
     };
-
-    function logout() {
-      FB.logout(function (response) {
-        // Person is now logged out
-        console.log("logout bye : ", response)
-      });
-    }
   </script>
 </body>
 
