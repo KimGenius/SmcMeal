@@ -8,6 +8,7 @@ var bodyParser = require('body-parser');
 var index = require('./routes/index');
 var users = require('./routes/users');
 var bab = require('./routes/bab');
+var login = require('./routes/login');
 
 var app = express();
 
@@ -29,6 +30,7 @@ app.use('/fb', express.static(__dirname + '/node_modules/fb/lib/'));
 app.use('/', index);
 app.use('/users', users);
 app.use('/bab', bab);
+app.use('/login', login);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -84,7 +86,7 @@ module.exports = app.listen(8160, function () {
           })
           // if (result !== date.format(now, 'YYYY-MM-DD-dddd') + "\n") {
             FB.api(
-              '/' + page.getId() + '/feed',
+              '/' + page.getPageId() + '/feed',
               'POST',
               { "message": result+Math.random() },
               function (res) {
