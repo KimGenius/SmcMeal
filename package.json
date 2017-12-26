@@ -8,11 +8,13 @@
   "dependencies": {
     "body-parser": "~1.18.2",
     "cheerio": "^1.0.0-rc.2",
+    "connect": "^3.6.5",
     "cookie-parser": "~1.4.3",
     "date-and-time": "^0.6.1",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
+    "facebook-sdk": "^0.3.2",
     "fb": "^2.0.0",
     "html-entities": "^1.2.1",
     "jquery": "^3.2.1",

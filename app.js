@@ -59,8 +59,9 @@ const entities = new Entities();
 const page = require('./ignore/token')
 const FB = require('fb');
 const info = require('./ignore/info')
+
 module.exports = app.listen(8160, function () {
-  schedule.scheduleJob('20 * * * * *', function () {
+  schedule.scheduleJob('25 * * * * *', function () {
     console.log(page.getToken())
     FB.setAccessToken(page.getToken())
     const now = new Date();
@@ -87,7 +88,7 @@ module.exports = app.listen(8160, function () {
             FB.api(
               '/' + page.getPageId() + '/feed',
               'POST',
-              { "message": result + "\n\nCreated by GeniusK & Leesane"},
+              { "message": result + "\n\nCreated by GeniusK & Leesane" + Math.random()},
               function (res) {
                 if (!res || res.error) {
                   console.log("feed err : ", !res ? 'error occurred' : res.error);

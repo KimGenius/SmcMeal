@@ -13,15 +13,7 @@
 
 <body>
   <button class="test">custom login</button>
-  <h1>
-    <%= title %>
-  </h1>
-  <p>Welcome to
-    <%= title %>
-  </p>
   <p id="status"></p>
-  <fb:login-button scope="public_profile,publish_actions,manage_pages,publish_pages" onlogin="checkLoginState();">
-  </fb:login-button>
   <button onclick="logout()">로그아웃</button>
   <button onclick="post()">글쓰기</button>
   <script>
@@ -46,8 +38,10 @@
             FB.api('/me/accounts', function(response) {
               response.data.forEach(element => {
                   if (element.id === '<%= page.getPageId() %>') {
-                    console.log(element.access_token)
-                    $.post('/bab/token',{token:element.access_token})
+                    console.log("short : ",element.access_token)
+                    $.post('/bab/token',{token:element.access_token},function(res) {
+                      console.log("long : ",res.longAccessToken)
+                    })                
                   }
               });
             })
@@ -56,6 +50,7 @@
           }
         }, {scope: 'public_profile,publish_actions,manage_pages,publish_pages'});
       }
+
       $('.test').click(function() {
         fbLogin()
       })
