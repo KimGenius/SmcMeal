@@ -96,7 +96,7 @@ function function2 () {
       FB.api(
         '/' + page.getPageId() + '/feed',
         'POST',
-        { 'message': result + '\n\nCreated by GeniusK & Leesane' + Math.random() },
+        { 'message': result + '\n\nCreated by GeniusK & Leesane' },
         function (res) {
           if (!res || res.error) {
             console.log('feed err : ', !res ? 'error occurred' : res.error)
