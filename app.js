@@ -102,6 +102,7 @@ function function2 () {
             console.log('feed err : ', !res ? 'error occurred' : res.error)
             return
           }
+          console.log('time : ', now)
           console.log('facebook board : ', res)
           console.log('Post Id: ' + res.id)
         }

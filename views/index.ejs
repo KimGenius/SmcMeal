@@ -18,19 +18,6 @@
   <button onclick="post()">글쓰기</button>
   <script>
     (function($) {
-      // function getAccounts() {
-      //   return new Promise(function(resolve, reject) {
-      //     try{
-      //       FB.api('/me/accounts', function(response) {
-      //         console.log(response)
-      //         console.log('Good to see you, ' + response.name + '.')        
-      //         resolve(response)
-      //       })
-      //     } catch(e){
-      //       reject(e)
-      //     }
-      //   });
-      // }
       function fbLogin() {
         FB.login(function(response) {
           if (response.authResponse) {
