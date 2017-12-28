@@ -28,7 +28,7 @@
                     console.log("short : ",element.access_token)
                     $.post('/bab/token',{token:element.access_token},function(res) {
                       console.log("long : ",res.longAccessToken)
-                    })                
+                    }) 
                   }
               });
             })

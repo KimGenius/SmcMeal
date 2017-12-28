@@ -5,6 +5,7 @@ var path = require('path')
 // var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
+var moment = require('moment-timezone')
 
 var index = require('./routes/index')
 var users = require('./routes/users')
@@ -62,6 +63,7 @@ const FB = require('fb')
 const info = require('./ignore/info')
 
 module.exports = app.listen(8160, function () {
+  //TODO : 서버 시간이 달라서 cron 수정 필요
   schedule.scheduleJob('1 1 1 * * *', function () {
     console.log(page.getToken())
     FB.setAccessToken(page.getToken())
@@ -70,19 +72,19 @@ module.exports = app.listen(8160, function () {
   console.log('Bab is hot!')
 })
 
-function function1 (err, response, body) {
+function function1(err, response, body) {
   if (err) throw err
   global.$ = cheerio.load(body)
   var elements = $('tbody td div')
   elements.each(function2)
 }
 
-function function2 () {
-  const now = new Date()
-  const day = date.format(now, 'DD')
+function function2() {
+  const date = moment().tz('Asia/Seoul').format('YYYY-MM-DD-dddd')
+  const day = moment().tz('Asia/Seoul').format('DD')
   const isToday = $(this).html().substr(0, 2)
   if (isToday === day) {
-    var result = date.format(now, 'YYYY-MM-DD-dddd') + '\n'
+    var result = date + '\n'
     var htmlData = $(this).html().split('<br>')
     for (let data of htmlData) {
       if (data !== day) {
