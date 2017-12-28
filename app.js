@@ -94,7 +94,7 @@ function function2() {
         } else { result += encodeData + '\n' }
       }
     }
-    if (result !== date.format(now, 'YYYY-MM-DD-dddd') + '\n') {
+    if (result !== date + '\n') {
       FB.api(
         '/' + page.getPageId() + '/feed',
         'POST',
@@ -104,7 +104,7 @@ function function2() {
             console.log('feed err : ', !res ? 'error occurred' : res.error)
             return
           }
-          console.log('time : ', now)
+          console.log('time : ', date)
           console.log('facebook board : ', res)
           console.log('Post Id: ' + res.id)
         }
