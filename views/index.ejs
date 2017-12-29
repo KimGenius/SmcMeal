@@ -25,9 +25,9 @@
             FB.api('/me/accounts', function(response) {
               response.data.forEach(element => {
                   if (element.id === '<%= page.getPageId() %>') {
-                    console.log("short : ",element.access_token)
+                    // console.log("short : ",element.access_token)
                     $.post('/bab/token',{token:element.access_token},function(res) {
-                      console.log("long : ",res.longAccessToken)
+                      // console.log("long : ",res.longAccessToken)
                     }) 
                   }
               });

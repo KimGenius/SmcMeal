@@ -104,7 +104,6 @@ function function2() {
             return
           }
           console.log('time : ', date)
-          console.log('facebook board : ', res)
           console.log('Post Id: ' + res.id)
         }
       )

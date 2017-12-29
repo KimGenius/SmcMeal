@@ -12,6 +12,7 @@ router.post('/token', function (req, res) {
       fb_exchange_token:req.body.token
     },
     function(response){
+      console.log('login success!')
       page.setToken(response.access_token)
       return res.status(200).json({
         status: 'success',
@@ -22,15 +23,6 @@ router.post('/token', function (req, res) {
     return res.status(500).json({
       status: e.message
     })
-  }
-})
-
-router.post('/start', function (req, res) {
-  console.log("hello!")
-  try {
-    
-  } catch(e) {
-    console.error(e)
   }
 })
 
