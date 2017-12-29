@@ -66,19 +66,20 @@ module.exports = app.listen(8160, function () {
   schedule.scheduleJob('1 1 1 * * *', function () {
     console.log(page.getToken())
     FB.setAccessToken(page.getToken())
-    request(info.getUrl(), function1)
+    request(info.getUrl(), getBab)
   })
   console.log('Bab is hot!')
 })
 
-function function1(err, response, body) {
+function getBab(err, response, body) {
   if (err) throw err
   global.$ = cheerio.load(body)
   var elements = $('tbody td div')
-  elements.each(function2)
+  elements.each(parsing)
 }
 
-function function2() {
+function parsing() {
+  console.log('start parsing')
   const date = moment().tz('Asia/Seoul').format('YYYY-MM-DD-dddd')
   const day = moment().tz('Asia/Seoul').format('DD')
   const isToday = $(this).html().substr(0, 2)
@@ -103,12 +104,14 @@ function function2() {
             console.log('feed err : ', !res ? 'error occurred' : res.error)
             return
           }
-          console.log('time : ', date)
           console.log('Post Id: ' + res.id)
         }
       )
     } else {
       console.log('주말 잘 보내세용')
     }
+    console.log('time : ', date)
+  } else {
+    console.log('맞는 날짜가 없음')
   }
 }
