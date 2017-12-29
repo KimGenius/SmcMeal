@@ -63,7 +63,6 @@ const FB = require('fb')
 const info = require('./ignore/info')
 
 module.exports = app.listen(8160, function () {
-  //TODO : 서버 시간이 달라서 cron 수정 필요
   schedule.scheduleJob('1 1 1 * * *', function () {
     console.log(page.getToken())
     FB.setAccessToken(page.getToken())
