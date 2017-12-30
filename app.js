@@ -79,7 +79,6 @@ function getBab(err, response, body) {
 }
 
 function parsing() {
-  console.log('start parsing')
   const date = moment().tz('Asia/Seoul').format('YYYY-MM-DD-dddd')
   const day = moment().tz('Asia/Seoul').format('DD')
   const isToday = $(this).html().substr(0, 2)
@@ -111,7 +110,5 @@ function parsing() {
       console.log('주말 잘 보내세용')
     }
     console.log('time : ', date)
-  } else {
-    console.log('맞는 날짜가 없음')
   }
 }
