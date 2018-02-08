@@ -75,10 +75,12 @@ function getBab(err, response, body) {
   if (err) throw err
   global.$ = cheerio.load(body)
   var elements = $('tbody td div')
+  console.log('getBab')
   elements.each(parsing)
 }
 
 function parsing() {
+  console.log('start Parsing')
   const date = moment().tz('Asia/Seoul').format('YYYY-MM-DD-dddd')
   const day = moment().tz('Asia/Seoul').format('DD')
   const isToday = $(this).html().substr(0, 2)
