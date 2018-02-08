@@ -1,8 +1,6 @@
 /* global $ */
 var express = require('express')
 var path = require('path')
-// var favicon = require('serve-favicon')
-// var logger = require('morgan')
 var cookieParser = require('cookie-parser')
 var bodyParser = require('body-parser')
 var moment = require('moment-timezone')
@@ -36,7 +34,7 @@ app.use('/login', login)
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  var err = new Error('Not Found')
+  const err = new Error('Not Found')
   err.status = 404
   next(err)
 })
@@ -63,27 +61,24 @@ const FB = require('fb')
 const info = require('./ignore/info')
 
 module.exports = app.listen(8160, function () {
-  schedule.scheduleJob('1 1 1 * * *', function () {
-    console.log(page.getToken())
+  schedule.scheduleJob('20 * * * * *', function () {
     FB.setAccessToken(page.getToken())
     request(info.getUrl(), getBab)
   })
-  console.log('Bab is hot!')
 })
 
 function getBab(err, response, body) {
   if (err) throw err
   global.$ = cheerio.load(body)
   var elements = $('tbody td div')
-  console.log('getBab')
   elements.each(parsing)
 }
 
 function parsing() {
   console.log('start Parsing')
   const date = moment().tz('Asia/Seoul').format('YYYY-MM-DD-dddd')
-  const day = moment().tz('Asia/Seoul').format('DD')
-  const isToday = $(this).html().substr(0, 2)
+  const day =parseInt(moment().tz('Asia/Seoul').format('DD'))
+  const isToday = parseInt($(this).html().substr(0, 2))
   if (isToday === day) {
     var result = date + '\n'
     var htmlData = $(this).html().split('<br>')
