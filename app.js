@@ -61,7 +61,7 @@ const FB = require('fb')
 const info = require('./ignore/info')
 
 module.exports = app.listen(8160, function () {
-  schedule.scheduleJob('20 * * * * *', function () {
+  schedule.scheduleJob('0 1 15 * * *', function () {
     FB.setAccessToken(page.getToken())
     request(info.getUrl(), getBab)
   })
@@ -75,7 +75,6 @@ function getBab(err, response, body) {
 }
 
 function parsing() {
-  console.log('start Parsing')
   const date = moment().tz('Asia/Seoul').format('YYYY-MM-DD-dddd')
   const day =parseInt(moment().tz('Asia/Seoul').format('DD'))
   const isToday = parseInt($(this).html().substr(0, 2))
