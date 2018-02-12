@@ -84,9 +84,11 @@ function parsing() {
     for (let data of htmlData) {
       if (data !== day) {
         const encodeData = entities.decode(data).replace(/[0-9]|\./gi, '')
-        if (encodeData === '[중식]' || encodeData === '[석식]') {
-          result += '\n' + encodeData + '\n'
-        } else { result += encodeData + '\n' }
+        if(encodeData.trim() !== '') {
+          if (encodeData === '[중식]' || encodeData === '[석식]') {
+            result += '\n' + encodeData + '\n'
+          } else { result += encodeData + '\n' }
+        }
       }
     }
     if (result !== date + '\n') {
@@ -103,7 +105,7 @@ function parsing() {
         }
       )
     } else {
-      console.log('주말 잘 보내세용')
+      console.log('주말 잘 보내세용 or 급식 없음')
     }
     console.log('time : ', date)
   }
