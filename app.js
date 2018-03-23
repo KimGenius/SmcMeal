@@ -61,7 +61,7 @@ const FB = require('fb')
 const info = require('./ignore/info')
 
 module.exports = app.listen(8160, function () {
-  schedule.scheduleJob('0 1 15 * * *', function () {
+  schedule.scheduleJob('0 1 0 * * *', function () {
     FB.setAccessToken(page.getToken())
     request(info.getUrl(), getBab)
   })
