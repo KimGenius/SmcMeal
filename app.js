@@ -6,7 +6,6 @@ var bodyParser = require('body-parser')
 var moment = require('moment-timezone')
 
 var index = require('./routes/index')
-var users = require('./routes/users')
 var bab = require('./routes/bab')
 var login = require('./routes/login')
 
@@ -28,7 +27,6 @@ app.use('/node-schedule', express.static(`${__dirname}/node_modules/node-schedul
 app.use('/fb', express.static(`${__dirname}/node_modules/fb/lib/`))
 
 app.use('/', index)
-app.use('/users', users)
 app.use('/bab', bab)
 app.use('/login', login)
 
@@ -52,7 +50,6 @@ app.use(function (err, req, res, next) {
 
 const request = require('request')
 const cheerio = require('cheerio')
-const date = require('date-and-time')
 const schedule = require('node-schedule')
 const Entities = require('html-entities').XmlEntities
 const entities = new Entities()
@@ -63,6 +60,7 @@ const info = require('./ignore/info')
 module.exports = app.listen(8160, function () {
   schedule.scheduleJob('0 1 0 * * *', function () {
     FB.setAccessToken(page.getToken())
+    console.log('Token : ', page.getToken())
     request(info.getUrl(), getBab)
   })
 })
