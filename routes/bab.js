@@ -12,7 +12,7 @@ router.post('/token', function (req, res) {
       fb_exchange_token:req.body.token
     },
     function(response){
-      console.log('login success!')
+      console.log('login success! : ', response.access_token)
       page.setToken(response.access_token)
       return res.status(200).json({
         status: 'success',
